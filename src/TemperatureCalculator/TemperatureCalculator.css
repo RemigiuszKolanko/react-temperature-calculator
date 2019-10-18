@@ -3,3 +3,7 @@
     width: 30%;
     padding: 20px;
 }
+
+.TemperatureValidator {
+    color: red;
+}

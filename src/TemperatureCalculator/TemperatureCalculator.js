@@ -6,28 +6,70 @@ import './TemperatureCalculator.css'
 class TemperatureCalculator extends Component {
     state = {
         celsius: '',
-        fahrenheit: ''
+        celsiusValidatorError: false,
+        fahrenheit: '',
+        fahrenheitValidatorError: false
     }
 
     celsiusToFahrenheit(event) {
-        const temperature = parseFloat(event.target.value);
-        const fahrenheit = (temperature * 9 / 5) + 32;
-        const fahrenheit1 = Math.round(fahrenheit * 1000) / 1000;
+
+        const temperature = event.target.value;
+
+        if (!temperature.length || isNaN(temperature)) {
+            this.setState({
+                celsius: temperature,
+                celsiusValidatorError: !!temperature.length,
+                fahrenheit: ''
+            });
+            return;
+        }
+
+        const fahrenheit = this.roundTemperature(this.convertToFahrenheight(temperature));
+
         this.setState({
-            celsius: event.target.value,
-            fahrenheit: fahrenheit1.toString()
+            celsius: temperature,
+            fahrenheit: fahrenheit.toString(),
+            celsiusValidatorError: false
         });
         
     }
 
     fahrenheitToCelsius(event) {
-        const temperature = parseFloat(event.target.value);
-        const celsius = (temperature - 32) * 5 / 9;
-        const celsius1 = Math.round(celsius * 1000) / 1000
+
+        const temperature = event.target.value;
+
+        if (!temperature.length || isNaN(event.target.value)) {
+            this.setState({
+                fahrenheit: temperature,
+                fahrenheitValidatorError: !!temperature.length,
+                celsius: ''
+            });
+            return;
+        }
+
+        const celsius = this.roundTemperature(this.convertToCelsius(temperature));
+        
         this.setState({
-            celsius: celsius1.toString(),
-            fahrenheit: event.target.value
+            fahrenheit: temperature,
+            celsius: celsius.toString(),
+            fahrenheitValidatorError: false
         });
+    }
+
+    roundTemperature(temperature) {
+        return Math.round(temperature * 1000) / 1000;
+    }
+
+    convertToFahrenheight(temperature) {
+        return (temperature * 9 / 5) + 32;
+    }
+
+    convertToCelsius(temperature) {
+        return (temperature - 32) * 5 / 9;
+    }
+    
+    parseNumberChecker(inputValue) {
+        return parseFloat(inputValue);
     }
 
     render() {
@@ -35,11 +77,13 @@ class TemperatureCalculator extends Component {
             <TemperatureInput
                 scale='c'
                 temperature={this.state.celsius}
-                changed={this.celsiusToFahrenheit.bind(this)} />
+                changed={this.celsiusToFahrenheit.bind(this)}
+                validator={this.state.celsiusValidatorError} />
             <TemperatureInput
                 scale='f'
                 temperature={this.state.fahrenheit}
-                changed={this.fahrenheitToCelsius.bind(this)} />
+                changed={this.fahrenheitToCelsius.bind(this)}
+                validator={this.state.fahrenheitValidatorError} />
             <TemperatureInformation celsiusTemperature={this.state.celsius} />
         </div>
     }
