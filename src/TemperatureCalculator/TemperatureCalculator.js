@@ -19,7 +19,8 @@ class TemperatureCalculator extends Component {
             this.setState({
                 celsius: temperature,
                 celsiusValidatorError: !!temperature.length,
-                fahrenheit: ''
+                fahrenheit: '',
+                fahrenheitValidatorError: false
             });
             return;
         }
@@ -28,8 +29,9 @@ class TemperatureCalculator extends Component {
 
         this.setState({
             celsius: temperature,
+            celsiusValidatorError: false,
             fahrenheit: fahrenheit.toString(),
-            celsiusValidatorError: false
+            fahrenheitValidatorError: false
         });
         
     }
@@ -42,7 +44,8 @@ class TemperatureCalculator extends Component {
             this.setState({
                 fahrenheit: temperature,
                 fahrenheitValidatorError: !!temperature.length,
-                celsius: ''
+                celsius: '',
+                celsiusValidatorError: false
             });
             return;
         }
@@ -51,8 +54,9 @@ class TemperatureCalculator extends Component {
         
         this.setState({
             fahrenheit: temperature,
+            fahrenheitValidatorError: false,
             celsius: celsius.toString(),
-            fahrenheitValidatorError: false
+            celsiusValidatorError: false
         });
     }
 

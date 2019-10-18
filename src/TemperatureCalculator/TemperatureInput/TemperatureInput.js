@@ -5,7 +5,7 @@ const TemperatureInput = (props) => {
     const scaleNames = {
         c: 'Celsius',
         f: 'Fahrenheit'
-      };
+    };
 
     let validator = null;
 
